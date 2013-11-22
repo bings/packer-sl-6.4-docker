@@ -15,12 +15,14 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
 yum -y install wget
 yum -y install http://ftp.riken.jp/Linux/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
 
-cd /etc/yum.repos.d
-wget http://www.hop5.in/yum/el6/hop5.repo
+wget -O /etc/yum.repos.d/hop5.repo  http://www.hop5.in/yum/el6/hop5.repo
 
 # this is needed so that the VM guest additions can be build
+yum -y remove kernel-headers
+yum -y install kernel-ml-aufs-devel kernel-ml-aufs-headers gcc
+
+# install docker
 yum -y install docker-io
-yum -y install kernel-ml-aufs-devel kernel-ml-aufs-headers
 
 # use 3.10 kernel by default
 sed -i "s/default=1/default=0/" /boot/grub/grub.conf
